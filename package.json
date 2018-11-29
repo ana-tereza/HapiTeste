@@ -1,0 +1,19 @@
+{
+  "name": "getting-started-with-hapi-js-part-1",
+  "version": "1.0.0",
+  "description": "teste hapi",
+  "main": "index.js",
+  "scripts": {
+    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ana-tereza/HapiTeste.git"
+  },
+  "author": "ana",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ana-tereza/HapiTeste/issues"
+  },
+  "homepage": "https://github.com/ana-tereza/HapiTeste#readme"
+}
