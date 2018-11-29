@@ -4,7 +4,8 @@
   "description": "teste hapi",
   "main": "index.js",
   "scripts": {
-    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\""
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bootstrap.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/ana-tereza/HapiTeste/issues"
   },
-  "homepage": "https://github.com/ana-tereza/HapiTeste#readme"
+  "homepage": "https://github.com/ana-tereza/HapiTeste#readme",
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "hapi": "^17.8.1"
+  }
 }
