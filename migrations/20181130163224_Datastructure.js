@@ -23,7 +23,7 @@ exports.up = function(knex, Promise) {
                 bulletsTable.string( 'categoria', 250 ).notNullable();
                 bulletsTable.datetime( 'vencimento');
 
-                bulletsTable.timestamp( 'criadoem' ).notNullable().defaultTo(knex.raw('now()'));
+                bulletsTable.timestamp( 'criadoem' ).notNullable().defaultTo(knex.fn.now());
 
 
             } );
@@ -36,3 +36,4 @@ exports.down = function(knex, Promise) {
             .dropTableIfExists( 'bullets' )
             .dropTableIfExists( 'users' );
 };
+
