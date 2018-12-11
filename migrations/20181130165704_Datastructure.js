@@ -1,39 +1,22 @@
-
 exports.up = function(knex, Promise) {
-  return knex
-            .schema
-            .createTable( 'users', function( usersTable ) {
-                // Primary Key
-                usersTable.increments();
+  return knex.schema.createTable("tasks", function(table) {
+    // chave primária
+    table.increments("oid");
 
-                // Dados colunas
-                usersTable.string( 'username', 50 ).notNullable().unique();
-                usersTable.string( 'email', 250 ).notNullable().unique();
-                usersTable.string( 'password', 128 ).notNullable();
-            } )
+    // estrutura
+    table.string("title", 50).notNullable();
+    table.string("description", 250).notNullable();
+    table.boolean("deleted");
+    table.boolean("done");
 
-            .createTable( 'bullets', function( bulletsTable ) {
-
-                // Primary Key
-                bulletsTable.increments();
-                bulletsTable.string( 'dono', 50 ).references( 'username' ).inTable( 'users' );
-
-                // Data
-                bulletsTable.string( 'descricao', 250 ).notNullable();
-                bulletsTable.string( 'categoria', 250 ).notNullable();
-                bulletsTable.datetime( 'vencimento');
-
-                bulletsTable.timestamp( 'criadoem' ).notNullable().defaultTo(knex.fn.now());
-
-
-            } );
-
+    // timestamp
+    table
+      .timestamp("created_at")
+      .notNullable()
+      .defaultTo(knex.fn.now());
+  });
 };
 
 exports.down = function(knex, Promise) {
-  return knex
-        .schema
-            .dropTableIfExists( 'bullets' )
-            .dropTableIfExists( 'users' );
+  return knex.schema.dropTableIfExists("tasks");
 };
-
