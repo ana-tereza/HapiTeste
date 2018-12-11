@@ -6,7 +6,6 @@ const server = new Hapi.Server({
   port: process.env.PORT || 8000
 });
 
-
 const init = async () => {
   server.route([].concat(root).concat(tasks).concat(users));
 
