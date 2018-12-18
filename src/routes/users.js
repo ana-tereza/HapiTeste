@@ -18,11 +18,13 @@ const users = [
   },
   {
     method: "GET",
-    path: "/users/{user_id}",
+    path: "/users/{user_info}",
     handler: (request, reply) => {
-const id = request.params.user_id;
+const info = request.params.user_info;
       return knex("users")
-              .where("oid", id)
+              .where("oid", info)
+.orWhere("email", info)
+.orWhere("username", info)
               .select("oid", "username", "password", "email")
               .then(result =>
                 reply.response({ data: result[0] })
