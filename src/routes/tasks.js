@@ -153,7 +153,7 @@ const id = request.params.task_id;
       const id = request.params.task_id;
       return knex("tasks")
         .where("oid", id)
-        .update({ deleted: true })
+        .del()
         .then(result => {
           console.log(result);
           if (result === 0) {
