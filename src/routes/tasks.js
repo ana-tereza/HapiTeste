@@ -34,8 +34,10 @@ const id = request.params.task_id;
     method: "POST",
     path: "/tasks",
     handler: (request, reply) => {
+    console.log(request.payload);
       try {
         let { title, description } = JSON.parse(request.payload);
+console.log(title);
         if (title === undefined) {
           title = "";
           return reply.response({ error: "undefined title" }).code(400);
@@ -45,6 +47,7 @@ const id = request.params.task_id;
         }
         const task = {
           title: title,
+dono: "ana123",
           description: description,
           deleted: false,
           done: false
@@ -62,7 +65,7 @@ const id = request.params.task_id;
           });
       } catch (err) {
         return reply
-          .response({ error: "undefined task in json object" })
+          .response({ error: "undefined task in json object"})
           .code(400);
       }
     }
