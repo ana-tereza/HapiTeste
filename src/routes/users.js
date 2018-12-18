@@ -18,11 +18,24 @@ const users = [
   },
   {
     method: "GET",
-    path: "/users/",
+    path: "/users/{user_id}",
     handler: (request, reply) => {
-      return requestHandler(request, reply);
+const id = request.params.user_id;
+      return knex("users")
+              .where("oid", id)
+              .select("oid", "username", "password", "email")
+              .then(result =>
+                reply.response({ data: result[0] })
+              );
     }
   }
 ];
+
+
+
+
+
+
+
 
 export default users;
