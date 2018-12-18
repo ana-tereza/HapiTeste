@@ -19,9 +19,15 @@ module.exports = [
   },
   {
     method: "GET",
-    path: "/tasks/",
+    path: "/tasks/{task_id}",
     handler: (request, reply) => {
-      return requestHandler(request, reply);
+const id = request.params.task_id;
+      return knex("tasks")
+              .where("oid", id)
+              .select("oid", "title", "dono", "description", "deleted", "done")
+              .then(result =>
+                reply.response({ data: result[0] })
+              );
     }
   },
   {
