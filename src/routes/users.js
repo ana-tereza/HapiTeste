@@ -72,14 +72,40 @@ if (password === undefined) {
           .code(400);
       }
     }
+  },
+{
+    method: "PUT",
+    path: "/users/{user_id}",
+    handler: (request, reply) => {
+      try {
+        const { username, password, email } = JSON.parse(request.payload);
+        const id = request.params.user_id;
+        let user = {};
+        if (username != undefined) {
+          user.username = username;
+        }
+        if (password != undefined) {
+          user.password = password;
+        }
+ if (email != undefined) {
+          user.email = email;
+        }
+        return knex("users")
+          .where("oid", id)
+          .update(user)
+          .then(result =>
+            knex("users")
+              .where("oid", id)
+              .select("oid", "username", "password", "email")
+              .then(result =>
+                reply.response({ status: "updated", data: result[0] }).code(200)
+              )
+          )
+          .catch(err => reply.response(err).code(401));
+      } catch (err) {
+        return reply.response(err).code(401);
+      }
+    }
   }
 ];
-
-
-
-
-
-
-
-
 export default users;
