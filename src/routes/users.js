@@ -106,6 +106,35 @@ if (password === undefined) {
         return reply.response(err).code(401);
       }
     }
+  },
+{
+    method: "DELETE",
+    path: "/users/{user_id}",
+    handler: (request, reply) => {
+      const id = request.params.user_id;
+      return knex("users")
+        .where("oid", id)
+        .del()
+        .then(result => {
+          console.log(result);
+          if (result === 0) {
+            return reply
+              .response({
+                status: "not deleted",
+                message: "user not found!"
+              })
+              .code(409);
+          } else {
+            return knex("users")
+              .where("oid", id)
+              .select("oid", "username", "email", "password")
+              .then(result =>
+                reply.response({ status: "user deleted", data: result[0] }).code(200)
+              );
+          }
+        })
+        .catch(err => reply.response(err).code(401));
+    }
   }
 ];
 export default users;
