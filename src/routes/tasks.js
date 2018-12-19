@@ -3,8 +3,7 @@ import knex from "../config/knex";
 const requestHandler = (request, reply) => {
   return knex
     .from("tasks")
-    //where({ deleted: false })
-    .select("oid", "dono", "title", "description", "done")
+    .select("oid", "dono", "title", "description", "categoria", "done", "late")
     .then(results => reply.response(results))
     .catch(err => console.log(err));
 };
@@ -24,7 +23,7 @@ module.exports = [
 const id = request.params.task_id;
       return knex("tasks")
               .where("oid", id)
-              .select("oid", "title", "dono", "description", "deleted", "done")
+              .select("oid", "dono", "title", "description", "categoria", "done", "late")
               .then(result =>
                 reply.response({ data: result[0] })
               );
@@ -36,7 +35,7 @@ const id = request.params.task_id;
     handler: (request, reply) => {
     console.log(request.payload);
       try {
-        let { title, description } = JSON.parse(request.payload);
+        let { dono, title, description, categoria } = JSON.parse(request.payload);
 console.log(title);
         if (title === undefined) {
           title = "";
@@ -47,10 +46,11 @@ console.log(title);
         }
         const task = {
           title: title,
-dono: "ana123",
+dono: dono,
           description: description,
-          deleted: false,
-          done: false
+categoria: categoria,
+          done: false,
+late: false
         };
         return knex
           .into("tasks")
@@ -75,7 +75,7 @@ dono: "ana123",
     path: "/tasks/{task_id}",
     handler: (request, reply) => {
       try {
-        const { title, description } = JSON.parse(request.payload);
+        const { title, description, categoria } = JSON.parse(request.payload);
         const id = request.params.task_id;
         let task = {};
         if (title != undefined) {
@@ -84,13 +84,16 @@ dono: "ana123",
         if (description != undefined) {
           task.description = description;
         }
+if (categoria != undefined) {
+          task.categoria = categoria;
+        }
         return knex("tasks")
           .where("oid", id)
           .update(task)
           .then(result =>
             knex("tasks")
               .where("oid", id)
-              .select("oid", "title", "description", "deleted", "done")
+              .select("oid", "dono", "title", "description", "categoria", "done", "late")
               .then(result =>
                 reply.response({ status: "updated", data: result[0] }).code(200)
               )
@@ -114,7 +117,7 @@ dono: "ana123",
           .then(result =>
             knex("tasks")
               .where("oid", id)
-              .select("oid", "title", "description", "deleted", "done")
+              .select("oid", "dono", "title", "description", "categoria", "done", "late")
               .then(result =>
                 reply.response({ status: "done", data: result[0] }).code(200)
               )
@@ -138,7 +141,7 @@ dono: "ana123",
           .then(result =>
             knex("tasks")
               .where("oid", id)
-              .select("oid", "title", "description", "deleted", "done")
+              .select("oid", "dono", "title", "description", "categoria", "done", "late")
               .then(result =>
                 reply.response({ status: "undone", data: result[0] }).code(200)
               )
@@ -169,7 +172,7 @@ dono: "ana123",
           } else {
             return knex("tasks")
               .where("oid", id)
-              .select("oid", "title", "description", "deleted", "done")
+              .select("oid", "dono", "title", "description", "categoria", "done", "late")
               .then(result =>
                 reply.response({ status: "deleted", data: result[0] }).code(200)
               );
